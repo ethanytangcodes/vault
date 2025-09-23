@@ -1,29 +1,48 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LupineVault - Reborn</title>
-    <script>
-        async function loadAssets(){try{const res=await fetch("https://api.github.com/repos/rhenryw/lupine/commits/main");
-        const data=await res.json();
-        const sha=data.sha;
-        const base=\`https://cdn.jsdelivr.net/gh/rhenryw/lupine@\${sha}/assets\`;
-        const css=document.createElement("link");
-        css.rel="stylesheet";
-        css.href=\`\${base}/index.css\`;
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LupineVault - Reborn</title>
+
+  <script>
+    async function loadAssets() {
+      try {
+        const res = await fetch("https://api.github.com/repos/rhenryw/lupine/commits/main");
+        if (!res.ok) throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+
+        const data = await res.json();
+        // sometimes endpoints return an object, sometimes an array — be defensive
+        const sha = data.sha ?? (Array.isArray(data) ? data[0]?.sha : undefined);
+        if (!sha) throw new Error("Couldn't find commit SHA in GitHub response");
+
+        const base = `https://cdn.jsdelivr.net/gh/rhenryw/lupine@${sha}/assets`;
+
+        // inject CSS
+        const css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.href = `${base}/index.css`;
         document.head.appendChild(css);
-        const script=document.createElement("script");
-        script.type="module";
-        script.src=\`\${base}/index.js\`;
+
+        // inject module script
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = `${base}/index.js`;
         document.head.appendChild(script);
-        }catch(err){console.error("Failed to load assets",err);
-        }}loadAssets();
-    <\script>
-  </head>
-    <body>
-      <div id="root"></div>
-    </body>
+      } catch (err) {
+        console.error("Failed to load assets", err);
+        // optional: show a small UI notice
+        const note = document.createElement("div");
+        note.textContent = "Failed to load assets — check console for details.";
+        Object.assign(note.style, {position: "fixed", bottom: "8px", right: "8px", background:"#fee", padding:"8px", border:"1px solid #c00"});
+        document.body.appendChild(note);
+      }
+    }
+    loadAssets();
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
 </html>
