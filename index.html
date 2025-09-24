@@ -11,6 +11,7 @@
     --accent-1: #7c3aed;
     --accent-2: #06b6d4;
     --accent-3: #60a5fa;
+    transition: --accent-1 0.6s ease, --accent-2 0.6s ease, --accent-3 0.6s ease;
   }
 
   body{
@@ -26,7 +27,6 @@
     padding: 40px 20px;
     box-sizing: border-box;
     text-align: center;
-    transition: background 0.5s ease;
   }
 
   h1{margin-bottom: 8px;}
@@ -45,7 +45,7 @@
     cursor: pointer;
     overflow: hidden;
     box-shadow: 0 8px 28px rgba(124,58,237,0.14);
-    transition: all 0.4s ease;
+    transition: all 0.5s ease;
   }
 
   .btn:active{transform: translateY(1px);}
@@ -72,16 +72,33 @@
     background: linear-gradient(90deg,var(--accent-2),var(--accent-1));
   }
 
+  /* Back to home button */
+  #homeBtn {
+    position: fixed;
+    top: -60px;
+    left: 20px;
+    z-index: 1000;
+    transition: top 0.6s ease, opacity 0.6s ease;
+    opacity: 0;
+  }
+
+  #homeBtn.show {
+    top: 20px;
+    opacity: 1;
+  }
+
   footer{
     margin-top: 40px;
     padding-top: 20px;
     border-top: 1px solid rgba(255,255,255,0.1);
-    transition: color 0.4s ease;
   }
 </style>
 </head>
 <body>
   <canvas id="fluid"></canvas>
+  <!-- Back to home button -->
+  <button id="homeBtn" class="btn">← Back to Home</button>
+
   <div>
     <h1>Vault HTML</h1>
     <p>Click below to download your HTML file or open it in a new tab.</p>
@@ -97,18 +114,15 @@
   </footer>
 
 <script>
-  // Static download
   const staticPath = document.getElementById('staticPath');
   const staticAnchor = document.getElementById('staticAnchor');
   staticAnchor.href = staticPath.value;
   staticAnchor.setAttribute('download', staticPath.value.split('/').pop());
 
-  // Open in about:blank
   document.getElementById('openBtn').addEventListener('click', () => {
     window.open(staticPath.value, '_blank');
   });
 
-  // Accent swap with smooth transitions
   const accentBtn = document.getElementById('accentBtn');
   const root = document.documentElement;
   const palettes = [
@@ -129,16 +143,25 @@
     let idx = palettes.findIndex(p => p[0] === current);
     idx = (idx + 1) % palettes.length;
 
-    // Animate the accent change smoothly
-    root.style.transition = 'all 0.6s ease';
     root.style.setProperty('--accent-1', palettes[idx][0]);
     root.style.setProperty('--accent-2', palettes[idx][1]);
     root.style.setProperty('--accent-3', palettes[idx][2]);
   });
+
+  // Animate Back to Home button in
+  const homeBtn = document.getElementById('homeBtn');
+  window.addEventListener('load', () => {
+    setTimeout(() => homeBtn.classList.add('show'), 300);
+  });
+
+  // Navigate home
+  homeBtn.addEventListener('click', () => {
+    window.location.href = '/';
+  });
 </script>
 <script type="module">
-    import useFluidCursor from './fluid.js';
-    useFluidCursor();
+ import useFluidCursor from './fluid.js';
+  useFluidCursor();
 </script>
 </body>
 </html>
