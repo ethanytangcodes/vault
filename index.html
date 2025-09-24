@@ -1,101 +1,139 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>download</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault Download</title>
+<style>
+  :root{
+    --bg: #071126;
+    --text: #e9f2ff;
+    --accent-1: #7c3aed;
+    --accent-2: #06b6d4;
+    --accent-3: #60a5fa;
+  }
 
-  <style>
-    :root {
-      --accent-1: #7c3aed;
-      --accent-2: #06b6d4;
-      --accent-3: #60a5fa;
-      --muted: #9fb0c6;
-    }
+  body{
+    margin:0;
+    font-family: Inter, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    text-align: center;
+    transition: background 0.5s ease;
+  }
 
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 100vh;
-      background: linear-gradient(180deg, #071126, #08172a);
-      font-family: Inter, sans-serif;
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
+  h1{margin-bottom: 8px;}
+  p{margin-top:0; margin-bottom:24px; color: rgba(233,242,255,0.7);}
 
-    h1 {
-      font-size: 2em;
-      margin-bottom: 0.5em;
-    }
+  .btn {
+    position: relative;
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 10px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    background: linear-gradient(90deg,var(--accent-1),var(--accent-3));
+    color: white;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(124,58,237,0.14);
+    transition: all 0.4s ease;
+  }
 
-    p {
-      font-size: 1em;
-      color: var(--muted);
-      margin-bottom: 2em;
-      max-width: 400px;
-    }
+  .btn:active{transform: translateY(1px);}
 
-    .btn {
-      position: relative;
-      display: inline-block;
-      padding: 12px 20px;
-      border-radius: 12px;
-      border: none;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
-      color: white;
-      cursor: pointer;
-      overflow: hidden;
-      box-shadow: 0 8px 28px rgba(124, 58, 237, 0.14);
-      transition: transform .18s ease, box-shadow .18s ease;
-      text-decoration: none;
-      margin: 0 10px;
-    }
+  .btn::after{
+    content:"";
+    position:absolute; top:-40%; left:-30%;
+    width:40%; height:180%;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%);
+    transform: rotate(18deg) translateX(-120%);
+    transition: transform 1.2s cubic-bezier(.2,.9,.2,1);
+    pointer-events:none;
+    opacity:0.95;
+    filter: blur(10px);
+  }
 
-    .btn:hover {
-      box-shadow: 0 16px 40px rgba(99, 102, 241, 0.18), 0 2px 6px rgba(6, 182, 212, 0.06);
-      transform: translateY(-2px);
-    }
+  .btn:hover::after{
+    transform: rotate(18deg) translateX(260%);
+  }
 
-    .btn::after {
-      content:"";
-      position:absolute;
-      top:-40%;
-      left:-30%;
-      width:40%;
-      height:180%;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%);
-      transform: rotate(18deg) translateX(-120%);
-      transition: transform .9s cubic-bezier(.2,.9,.2,1);
-      pointer-events: none;
-      opacity: 0.95;
-      filter: blur(10px);
-    }
+  .btn:hover{
+    box-shadow:0 16px 40px rgba(99,102,241,0.18), 0 2px 6px rgba(6,182,212,0.06);
+    transform: translateY(-2px);
+    background: linear-gradient(90deg,var(--accent-2),var(--accent-1));
+  }
 
-    .btn:hover::after {
-      transform: rotate(18deg) translateX(260%);
-    }
-
-    .buttons-wrapper {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-  </style>
+  footer{
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    transition: color 0.4s ease;
+  }
+</style>
 </head>
 <body>
+  <div>
+    <h1>Vault HTML</h1>
+    <p>Click below to download your HTML file or open it in a new tab.</p>
 
-  <h1>Vault Download</h1>
-  <p>download a massive vault of 400+ g4mes! plus, it can't be seen by securly classroom!</p>
-
-  <div class="buttons-wrapper">
-    <a href="/vault.html" download="vault.html" class="btn">Download Vault</a>
-    <a href="/vault.html" target="_blank" class="btn">Open in About:Blank</a>
+    <input id="staticPath" type="text" value="/vault.html" style="display:none;">
+    <a id="staticAnchor" class="btn" href="/vault.html" download>Download Vault</a>
+    <button id="openBtn" class="btn">Open in About:Blank</button>
   </div>
 
+  <footer>
+    <span>Swap accent colors:</span>
+    <button id="accentBtn" class="btn" style="margin-left:10px;">Swap Accent</button>
+  </footer>
+
+<script>
+  // Static download
+  const staticPath = document.getElementById('staticPath');
+  const staticAnchor = document.getElementById('staticAnchor');
+  staticAnchor.href = staticPath.value;
+  staticAnchor.setAttribute('download', staticPath.value.split('/').pop());
+
+  // Open in about:blank
+  document.getElementById('openBtn').addEventListener('click', () => {
+    window.open(staticPath.value, '_blank');
+  });
+
+  // Accent swap with smooth transitions
+  const accentBtn = document.getElementById('accentBtn');
+  const root = document.documentElement;
+  const palettes = [
+    ['#7c3aed','#06b6d4','#60a5fa'],
+    ['#fb7185','#f97316','#f59e0b'],
+    ['#10b981','#06b6d4','#34d399'],
+    ['#ef4444','#f43f5e','#fb7185'],
+    ['#6366f1','#8b5cf6','#a78bfa'],
+    ['#facc15','#fbbf24','#fde68a'],
+    ['#0ea5e9','#0284c7','#38bdf8'],
+    ['#e879f9','#d946ef','#f9a8d4'],
+    ['#14b8a6','#0d9488','#2dd4bf'],
+    ['#f87171','#fca5a5','#fda4af']
+  ];
+
+  accentBtn.addEventListener('click', () => {
+    const current = getComputedStyle(root).getPropertyValue('--accent-1').trim();
+    let idx = palettes.findIndex(p => p[0] === current);
+    idx = (idx + 1) % palettes.length;
+
+    // Animate the accent change smoothly
+    root.style.transition = 'all 0.6s ease';
+    root.style.setProperty('--accent-1', palettes[idx][0]);
+    root.style.setProperty('--accent-2', palettes[idx][1]);
+    root.style.setProperty('--accent-3', palettes[idx][2]);
+  });
+</script>
 </body>
 </html>
