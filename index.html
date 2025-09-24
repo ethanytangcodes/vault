@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Download Vault</title>
+  <title>download</title>
 
   <style>
     :root {
@@ -15,13 +15,28 @@
 
     body {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      text-align: center;
       height: 100vh;
       background: linear-gradient(180deg, #071126, #08172a);
       font-family: Inter, sans-serif;
       color: white;
       margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      font-size: 1em;
+      color: var(--muted);
+      margin-bottom: 2em;
+      max-width: 400px;
     }
 
     .btn {
@@ -38,6 +53,7 @@
       box-shadow: 0 8px 28px rgba(124, 58, 237, 0.14);
       transition: transform .18s ease, box-shadow .18s ease;
       text-decoration: none;
+      margin: 0 10px;
     }
 
     .btn:hover {
@@ -63,11 +79,23 @@
     .btn:hover::after {
       transform: rotate(18deg) translateX(260%);
     }
+
+    .buttons-wrapper {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
   </style>
 </head>
 <body>
 
-  <a href="/vault/vault.html" download="vault.html" class="btn">Download</a>
+  <h1>Vault Download</h1>
+  <p>download a massive vault of 400+ g4mes! plus, it can't be seen by securly classroom!</p>
+
+  <div class="buttons-wrapper">
+    <a href="/vault.html" download="vault.html" class="btn">Download Vault</a>
+    <a href="/vault.html" target="_blank" class="btn">Open in About:Blank</a>
+  </div>
 
 </body>
 </html>
