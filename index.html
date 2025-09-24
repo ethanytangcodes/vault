@@ -81,6 +81,7 @@
 </style>
 </head>
 <body>
+  <canvas id="fluid"></canvas>
   <div>
     <h1>Vault HTML</h1>
     <p>Click below to download your HTML file or open it in a new tab.</p>
@@ -134,6 +135,10 @@
     root.style.setProperty('--accent-2', palettes[idx][1]);
     root.style.setProperty('--accent-3', palettes[idx][2]);
   });
+</script>
+<script type="module">
+    import useFluidCursor from './fluid.js';
+    useFluidCursor();
 </script>
 </body>
 </html>
